@@ -1,0 +1,125 @@
+<!-- movies.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Movies</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 20px;
+        }
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+            background-color: #fff;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        table, th, td {
+            border: 1px solid #ddd;
+        }
+        th, td {
+            text-align: left;
+            padding: 10px;
+        }
+        th {
+            background-color: #007bff;
+            color: white;
+        }
+        .actions form, .actions a {
+            display: inline-block;
+            margin-right: 5px;
+        }
+        .add-form, .actions input, .actions button {
+            padding: 8px;
+            margin-bottom: 5px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        .add-form {
+            width: 100%;
+            margin-bottom: 10px;
+        }
+        button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            cursor: pointer;
+            padding: 8px 12px;
+            border-radius: 4px;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        a {
+            text-decoration: none;
+            background-color: #28a745;
+            color: white;
+            padding: 8px 12px;
+            border-radius: 4px;
+        }
+        a:hover {
+            background-color: #218838;
+        }
+    </style>
+</head>
+<body>
+    <h2>Available Movies</h2>
+    <form class="search-form" method="POST" action="{{ url_for('search_movie') }}">
+        
+        <button type="submit">Search</button>
+    </form>
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Title</th>
+                <th>Genre</th>
+                <th>Release Year</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for movie in movies %}
+            <tr>
+                <td>{{ movie.movie_id }}</td>
+                <td>{{ movie.title }}</td>
+                <td>{{ movie.genre }}</td>
+                <td>{{ movie.release_year }}</td>
+                <td class="actions">
+                    <a href="{{ url_for('book_ticket', movie_id=movie.movie_id) }}">Book Ticket</a>
+                    <form method="POST" action="{{ url_for('delete_movie', movie_id=movie.movie_id) }}">
+                        <button type="submit">Delete</button>
+                    </form>
+                    
+                    <form method="POST" action="{{ url_for('update_movie', movie_id=movie.movie_id) }}">
+                        <input type="text" name="title" placeholder="Title" value="{{ movie.title }}">
+                        <input type="text" name="genre" placeholder="Genre" value="{{ movie.genre }}">
+                        <input type="number" name="release_year" placeholder="Year" value="{{ movie.release_year }}">
+                        <button type="submit">Update</button>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    
+    <form class="add-form" method="POST" action="{{ url_for('add_movie') }}">
+        <input type="text" name="title" placeholder="Title" required>
+        <input type="text" name="genre" placeholder="Genre" required>
+        <input type="number" name="release_year" placeholder="Year" required>
+        <button type="submit">Add Movie</button>
+    </form>
+    
+    <br>
+    <a href="{{ url_for('logout') }}">Logout</a>
+</body>
+</html>

@@ -1,0 +1,21 @@
+<!-- booking_confirmation.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Booking Confirmed</title>
+</head>
+<body>
+    <h2>Booking Confirmed!</h2>
+    
+    <p><strong>Movie:</strong> {{ movie.title }}</p>
+    <p><strong>Showtime:</strong> {{ showtime }}</p>
+    <p><strong>Seat:</strong> {{ seat_number }}</p>
+
+    <h3>Your Ticket QR Code:</h3>
+    <img src="data:image/png;base64,{{ qr_code }}" alt="QR Code">
+    
+    <a href="{{ url_for('movies') }}">Back to Movies</a>
+</body>
+</html>
